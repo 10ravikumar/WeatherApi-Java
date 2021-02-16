@@ -1,6 +1,7 @@
 package weather.stepdef;
 
 import io.cucumber.java.en.When;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import net.serenitybdd.core.Serenity;
@@ -9,6 +10,7 @@ import weather.data.DateField;
 import weather.steps.LocationApi;
 import weather.steps.SearchApi;
 import static net.serenitybdd.rest.SerenityRest.restAssuredThat;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +50,11 @@ public class WeatherApiStepDef {
 	@Then("the weather api should return successfull response")
 	public void the_weather_api_should_return_successfull_response() {
 		 restAssuredThat(response -> response.statusCode(200));
+	}
+	
+	@And("the weather api response should contains {int} fields")
+	public void the_weather_api_response_field_count(int expectedSize) {
+		assertEquals("weather fields mismatch",expectedSize, locationApi.verifyLocationResponse());
 	}
 		
 	
