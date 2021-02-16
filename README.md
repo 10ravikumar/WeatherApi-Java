@@ -4,7 +4,7 @@
  1. maven
  2. java 8+
 
-Open your favorite Terminal and follow below steps section.
+Open your terminal and follow below steps.
 
 #### Steps
 
