@@ -27,14 +27,14 @@ public class WeatherApiStepDef {
 	private Map<String,String> dataMap= new HashMap<>();
 	
 
-	@Given("fetch the where on earth id of {string} location")
-	public void fetch_the_where_on_earth_id(String location) {
+	@Given("the location {string} for search earth Id is available")
+	public void location_for_search_operation(String location) {
 		String woeId= search.getWhereOnEarth(location);	
 		dataMap.put(location, woeId);
 	}
-
-	@When("retrieve the weather info for a particular day {string} & location {string}")
-	public void user_retrieve_the_weather_forecast_info(String day,String location) {
+	
+	@When("the weather forecast for a {string} on a {string} is retrieve")
+	public void retrieve_weather_forecast(String location,String day) {
 		
 		String date=dateValue.getDateFormatValue(day);
 		String woeId=dataMap.getOrDefault(location, "location not found");
@@ -45,8 +45,8 @@ public class WeatherApiStepDef {
 		locationApi.getWeatherDetailBaseOnWoeIdAndDate(woeId, date);
 	}
 
-	@Then("the weather api should return successfully response")
-	public void the_weather_api_should_return_successfully_response() {
+	@Then("the weather api should return successfull response")
+	public void the_weather_api_should_return_successfull_response() {
 		 restAssuredThat(response -> response.statusCode(200));
 	}
 		

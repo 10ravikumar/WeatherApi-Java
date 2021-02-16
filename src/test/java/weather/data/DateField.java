@@ -12,12 +12,11 @@ public class DateField {
 		case "tomorrows":
 		 dayValue = getDayPlusValue(1);
 		 break;
-		case "todays":
+		case "today":
 		 dayValue = getDayPlusValue(0);
-		 break;
-		case "dayAfterTomorrows": 
-		 dayValue = getDayPlusValue(2);
-		 break;	
+		 break;			 
+		 default: 			 
+			dayValue= input;			
 	}
 		return dayValue;
 	}

@@ -31,14 +31,14 @@ public class SearchApi {
     
     @Step("Get the woeid value in search api by coordinates")
     public String getWhereOnEarthIDByCoordinates(String coordinates) {
-    	List<String> woeidList = SerenityRest.given()
+    	List<Integer> woeidList = SerenityRest.given()
                 .contentType("application/json")
                 .header("Content-Type", "application/json")
                 .queryParam("lattlong", coordinates)
                 .when()
                 .get(ApiEndPoints.LOCATION_SEARCH).body().jsonPath().get("woeid");
 		
-    	Optional<String> woeid = woeidList.stream().findFirst(); 
+    	Optional<String> woeid = woeidList.stream().map(String::valueOf).findFirst(); 
     	return woeid.isPresent() ? woeid.get() : "Where on earth id not found";
     }
     
