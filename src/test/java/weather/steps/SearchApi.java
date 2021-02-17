@@ -10,6 +10,9 @@ import weather.ApiEndPoints;
 
 public class SearchApi {
 	
+	private final String QUERY_PARAM = "query";
+	private final String LATTITUDE_LONGITUDE_PARAM = "lattlong";
+	
 	@Step("Get the where on earth id value")
 	public String getWhereOnEarth(String input) {	
 		return input.contains(",") ? getWhereOnEarthIDByCoordinates(input) : getWhereOnEarthIDByLocation(input);
@@ -17,14 +20,8 @@ public class SearchApi {
 	}
 
     @Step("Get the woeid value in search api by location")
-    public String getWhereOnEarthIDByLocation(String location) {
-    	
-    	Response locationResponse = SerenityRest.given()
-                .contentType("application/json")
-                .header("Content-Type", "application/json")
-                .queryParam("query", location)
-                .when()
-                .get(ApiEndPoints.LOCATION_SEARCH);
+    public String getWhereOnEarthIDByLocation(String location) {	
+    	Response locationResponse = getLocationApiResponse(QUERY_PARAM,location);
     	locationResponse.then().statusCode(200);
     	
     	List<Integer> woeidList =locationResponse.body().jsonPath().get("woeid");
@@ -35,18 +32,25 @@ public class SearchApi {
     
     @Step("Get the woeid value in search api by coordinates")
     public String getWhereOnEarthIDByCoordinates(String coordinates) {
-    	Response locationResponse = SerenityRest.given()
-                .contentType("application/json")
-                .header("Content-Type", "application/json")
-                .queryParam("lattlong", coordinates)
-                .when()
-                .get(ApiEndPoints.LOCATION_SEARCH);
+    	Response locationResponse = getLocationApiResponse(LATTITUDE_LONGITUDE_PARAM,coordinates);
     	locationResponse.then().statusCode(200);
-                        
+        
     	List<Integer> woeidList =locationResponse.body().jsonPath().get("woeid");
 		
     	Optional<String> woeid = woeidList.stream().map(String::valueOf).findFirst(); 
     	return woeid.isPresent() ? woeid.get() : "Where on earth id not found";
     }
     
+    
+    private Response getLocationApiResponse(String query,String value) {
+    	return SerenityRest.given()
+        .contentType("application/json")
+        .header("Content-Type", "application/json")
+        .queryParam(query, value)
+        .when()
+        .get(ApiEndPoints.LOCATION_SEARCH);
+    	
+    }
+    
+
 }
