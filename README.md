@@ -1,4 +1,4 @@
-# Weather API Automation Project 
+# Weather API Automation Using Java + Serenity + Cucumber. 
 
  ##### Prerequisite
  1. maven
